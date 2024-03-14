@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Enums\TaskStatusEnum;
+use App\Enums\PostVisibilityEnum;
 use App\Events\UpdateTaskEvent;
 use App\Models\Post;
 use App\Models\Task;
