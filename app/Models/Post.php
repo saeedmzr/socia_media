@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,6 +35,22 @@ class Post extends Model
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function scopeOwner($query, $userId = null)
+    {
+        if (!$userId) {
+            $userId = request()->user()->id;
+        }
+        return $this->where('user_id', $userId);
+    }
+
+    public function scopeFilters(Builder $builder, array $filters = []): Builder
+    {
+        foreach ($filters as $key => $filter) {
+            $builder->where($key, $filter);
+        }
+        return $builder;
     }
 
 }
