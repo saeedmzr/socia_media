@@ -38,7 +38,7 @@ class CommentResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "file_path" => $this->body,
+            "body" => $this->body,
             "updated_at" => $this->updated_at,
             "created_at" => $this->created_at,
         ];
