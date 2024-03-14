@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PostVisibilityEnum;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->longText("content");
-            $table->string("visibility")->default("public");
+            $table->string("visibility")->default(PostVisibilityEnum::getDefaultItem());
             $table->softDeletes();
             $table->timestamps();
         });
