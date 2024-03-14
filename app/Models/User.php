@@ -46,10 +46,40 @@ class User extends Authenticatable
 
     }
 
+    public function starter_conversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, "user1_id");
+    }
+
+    public function receiver_conversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, "user2_id");
+    }
+
+    public function send_messages(): HasMany
+    {
+        return $this->hasMany(Message::class, "sender_user_id");
+    }
+
+    public function receive_messages(): HasMany
+    {
+        return $this->hasMany(Message::class, "receiver_user_id");
+    }
+
+    public function starter_friendships(): HasMany
+    {
+        return $this->hasMany(Friendship::class, "user1_id");
+    }
+
+    public function receiver_friendships(): HasMany
+    {
+        return $this->hasMany(Friendship::class, "user2_id");
+    }
+
+
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
-
     }
 
 }
