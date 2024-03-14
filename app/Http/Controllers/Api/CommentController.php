@@ -34,7 +34,7 @@ class CommentController extends BaseController
 
     /**
      * @OA\Get(
-     *     path="/comments/{commentId}",
+     *     path="/posts/comments/{commentId}",
      *     summary="Get a comment by ID",
      *     description="Retrieves a single comment identified by its ID.",
      *     tags={"Comment Management"},
@@ -75,11 +75,12 @@ class CommentController extends BaseController
     }
 
     /**
-     * @OA\Comment(
-     *     path="/comments",
-     *     summary="Create a new comment",
-     *     description="Creates a new comment with the provided details.",
+     * @OA\Put(
+     *     path="/posts/comments",
+     *     summary="Create a comment",
+     *     description="Create a comment with the provided details.",
      *               tags={"Comment Management"},
+
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/CreateCommentSchema")
@@ -92,8 +93,12 @@ class CommentController extends BaseController
      *         ),
      *     ),
      *     @OA\Response(
-     *         response=422,
-     *         description="Validation errors"
+     *         response=403,
+     *         description="Forbidden: Could not update this comment"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Comment not found"
      *     )
      * )
      *      security={{"sanctumAuth": {}}}
@@ -112,7 +117,7 @@ class CommentController extends BaseController
 
     /**
      * @OA\Put(
-     *     path="/comments/{commentId}",
+     *     path="/posts/comments/{commentId}",
      *     summary="Update a comment",
      *     description="Updates an existing comment with the provided details.",
      *               tags={"Comment Management"},
@@ -166,7 +171,7 @@ class CommentController extends BaseController
 
     /**
      * @OA\Delete(
-     *     path="/comments/{commentId}",
+     *     path="/posts/comments/{commentId}",
      *     summary="Delete a comment",
      *     description="Deletes a comment with the provided ID.",
      *               tags={"Comment Management"},

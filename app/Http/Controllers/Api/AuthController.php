@@ -144,39 +144,5 @@ class AuthController extends BaseController
         $user->tokens()->delete();
         return $this->successResponse([], 'Successfully logged out.',);
     }
-    /**
-     * @OA\Post(
-     *     path="/broadcast/token",
-     *     summary="Generate a temporary Pusher token for broadcasting",
-     *     description="Generates a temporary Pusher token for the authenticated user to use in broadcasting operations.",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Token generated successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="channel_data", type="string"),
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized: Invalid or missing user information"
-     *     )
-     * )
-     */
-    public function broadcastToken(Request $request): JsonResponse
-    {
-        $user = $request->user();
-        if (!$user or empty($user)) {
-            return $this->errorResponse(
-                'Invalid or missing user information.'
-                , 401);
-        }
 
-        // Generate a temporary Pusher token
-        $pusher = app('pusher');
-        $token = $pusher->socketAuth($user->id, $user->name, strtotime('+1 hour'));
-
-        return $this->successResponse([
-            'channel_data' => $token,
-        ], 'Successfully fetched token for broadcasting.');
-
-    }
 }

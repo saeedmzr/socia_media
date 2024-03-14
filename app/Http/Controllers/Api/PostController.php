@@ -162,7 +162,8 @@ class PostController extends BaseController
         $post = $this->postRepository->create(
             collect($request->validated())->except(["media"])->toArray()
         );
-        $this->mediaRepository->upload($post->id, $request->media['file']);
+        if ($request->media && $request->media['file'] !== null)
+            $this->mediaRepository->upload($post->id, $request->media['file']);
 
         return $this->successResponse(
             new PostResource($post),
@@ -215,7 +216,7 @@ class PostController extends BaseController
             );
 
             $post = $this->postRepository->owned($request->user()->id)->findById($postId);
-            if ($request->media['file'] !== null)
+            if ($request->media && $request->media['file'] !== null)
                 $this->mediaRepository->upload($post->id, $request->media['file']);
 
             return $this->successResponse(

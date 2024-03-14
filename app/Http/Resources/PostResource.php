@@ -41,6 +41,8 @@ class PostResource extends JsonResource
 
     public function toArray(Request $request): array
     {
+        $isCollection = $this->resource instanceof \Illuminate\Pagination\AbstractPaginator;
+
         $data = [
             "id" => $this->id,
             "content" => $this->content,
@@ -50,7 +52,7 @@ class PostResource extends JsonResource
         ];
 
         // Check if request is for a single item
-        if ($this->isSingleResource()) {
+        if (!$isCollection) {
             $data["likes_count"] = $this->likes->count();
             $data["comments"] = CommentResource::collection($this->comments);
             $data["media"] = MediaResource::collection($this->media);
@@ -68,6 +70,7 @@ class PostResource extends JsonResource
     {
         // You can modify this logic based on your specific needs
         // Here, we check if the resource URI contains an ID
+        dd($this);
         return $this->uri !== url(route('posts.index'));
     }
 }
