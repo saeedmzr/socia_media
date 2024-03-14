@@ -29,7 +29,7 @@ class MediaRepository extends BaseRepository
         $extension = $file->getClientOriginalExtension();
         $fileName = uniqid(time()) . '.' . $extension;
 
-        $filePath = Storage::disk('posts')->putFileAs("/posts", $file, $fileName);
+        $filePath = Storage::disk('local')->putFileAs("/posts", $file, $fileName);
 
         if (!$filePath) {
             return null;
@@ -41,7 +41,7 @@ class MediaRepository extends BaseRepository
         };
         $payload = [
             "post_id" => $postId,
-            "file_path" => $postId,
+            "file_path" => $filePath,
             "media_type" => $mediaType,
         ];
 
@@ -56,8 +56,8 @@ class MediaRepository extends BaseRepository
      */
     public function delete(Media $media): bool
     {
-        if (Storage::disk('posts')->exists($media->file_path)) {
-            Storage::disk('posts')->delete($media->file_path);
+        if (Storage::disk('local')->exists($media->file_path)) {
+            Storage::disk('local')->delete($media->file_path);
         }
 
         return $media->delete();

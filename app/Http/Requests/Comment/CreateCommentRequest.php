@@ -8,10 +8,15 @@ use Illuminate\Foundation\Http\FormRequest;
  * @OA\Schema(
  *     schema="CreateCommentSchema",
  *     @OA\Property(
- * *         property="body",
- * *         type="string",
- * *         description="comment's body"
- * *     ),
+ *          property="body",
+ *          type="string",
+ *          description="comment's body"
+ *      ),
+ *          @OA\Property(
+ *           property="post_id",
+ *           type="integer",
+ *           description="comment's post id"
+ *       )
  * )
  */
 class CreateCommentRequest extends FormRequest
@@ -28,6 +33,7 @@ class CreateCommentRequest extends FormRequest
     {
         return [
             'user_id' => '',
+            'post_id' => ['required', "exists:posts,id"],
             'body' => ["required", "string"],
 
         ];

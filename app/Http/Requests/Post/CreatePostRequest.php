@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Post;
 
+use App\Enums\MediaTypeEnum;
 use App\Enums\PostVisibilityEnum;
+use App\Models\Media;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 
@@ -49,7 +51,7 @@ class CreatePostRequest extends FormRequest
             'visibility' => ['nullable', 'in:' . implode(',', PostVisibilityEnum::all())],
             'media' => ['nullable', 'array'],
             'media.file' => ['nullable', new File],
-            'media.type' => ['nullable', 'string'],
+            'media.type' => ['nullable', "string", 'in:' . implode(',', MediaTypeEnum::all())],
         ];
     }
 }
