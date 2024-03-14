@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+});
+
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+
+
+    Route::group(['prefix' => 'auth'], function () {
+        Route::get('get', [AuthController::class, 'get']);
+        Route::post('logout', [AuthController::class, 'logout']);
+    });
+
+
+    Route::apiResource('posts', PostController::class);
+    Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
+
+    });
+
+//    Route::post('/broadcasting/token', [AuthController::class, 'broadcastToken']);
+
+
 });
