@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->longText("body");
-            $table->boolean("type")->default("like");
+            $table->string("type")->default("like");
             $table->boolean("is_red")->default(false);
             $table->softDeletes();
             $table->timestamps();

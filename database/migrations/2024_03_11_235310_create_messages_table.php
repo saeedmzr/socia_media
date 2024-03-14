@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->longText("body");
             $table->softDeletes();
             $table->timestamps();
-            $table->foreign('user1_id')->references('id')->on('users');
-            $table->foreign('user2_id')->references('id')->on('users');
+            $table->foreign('sender_user_id')->references('id')->on('users');
+            $table->foreign('receiver_user_id')->references('id')->on('users');
 
         });
     }
