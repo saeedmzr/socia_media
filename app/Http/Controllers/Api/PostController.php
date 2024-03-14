@@ -76,7 +76,8 @@ class PostController extends BaseController
 
     public function index(Request $request): JsonResponse
     {
-        $posts = $this->postRepository->owned($request->user()->id)->filtersAndPaginate($request->get('filters', []), $request->get('size', 10));
+        $posts = $this->postRepository
+            ->filtersAndPaginate($request->get('filters', []), $request->get('size', 10));
 
         return $this->successResponse([
             "items" => PostResource::collection($posts),
@@ -161,7 +162,7 @@ class PostController extends BaseController
         $post = $this->postRepository->create(
             collect($request->validated())->except(["media"])->toArray()
         );
-        $this->mediaRepository->upload($post->id, $request->file("media"));
+        $this->mediaRepository->upload($post->id, $request->media['file']);
 
         return $this->successResponse(
             new PostResource($post),
@@ -214,8 +215,8 @@ class PostController extends BaseController
             );
 
             $post = $this->postRepository->owned($request->user()->id)->findById($postId);
-            if ($request->hasFile("media") !== null)
-                $this->mediaRepository->upload($post->id, $request->file("media"));
+            if ($request->media['file'] !== null)
+                $this->mediaRepository->upload($post->id, $request->media['file']);
 
             return $this->successResponse(
                 new PostResource($post),
